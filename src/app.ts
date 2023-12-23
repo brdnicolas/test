@@ -1,38 +1,29 @@
-import cors from "cors";
-import express from "express";
-import helmet from "helmet";
-import morgan from "morgan";
-import timeout from "connect-timeout";
-import CONFIG from "./config";
-import { expressPinoLogger } from "./helpers";
-import * as errorHandler from "@/middlewares/errorHandler";
-import routes from "@/routes";
+import cors from 'cors'
+import express from 'express'
+import morgan from 'morgan'
 
 export const createApp = (): express.Application => {
-  const app = express();
+  const app = express()
 
-  app.use(cors());
-  app.use(helmet());
-  app.use(express.json());
+  // Logger Middleware
+  app.use(morgan('tiny'))
+
+  app.use(cors())
+  app.use(express.json())
   app.use(
     express.urlencoded({
-      extended: true,
-    }),
-  );
-
-  if (CONFIG.APP.ENV !== "test") {
-    app.use(morgan("dev"));
-    app.use(expressPinoLogger());
-  }
-
-  app.use(timeout(CONFIG.SERVER.TIMEOUT));
+      extended: true
+    })
+  )
 
   // API Routes
-  app.use(`/api/${CONFIG.APP.VER}`, routes);
+  app.use('/api/', (_, res) => {
+    res.send('Hello World!!')
+  })
 
-  // Error Middleware
-  app.use(errorHandler.genericErrorHandler);
-  app.use(errorHandler.notFoundError);
+  app.use('/health', (_, res) => {
+    res.send('OK')
+  })
 
-  return app;
-};
+  return app
+}

@@ -8,6 +8,7 @@
     "ordered-imports": false,
     "object-literal-sort-keys": false,
     "quotemark": [true, "single"],
+    "no-console": false,
     "trailing-comma": [
       true,
       {
@@ -15,7 +16,6 @@
         "singleline": "never"
       }
     ],
-    "arrow-parens": [true, "ban-single-arg-parens"],
     "interface-name": [true, "never-prefix"]
   },
   "rulesDirectory": []
